@@ -1,0 +1,30 @@
+---
+- hosts: web
+
+  gather_facts: yes
+
+ 
+  roles:
+    - nginx
+    
+ 
+
+- hosts: redis
+  name: setup 6379
+  become: true
+  
+  roles: 
+    - redis
+  
+    
+  vars:
+    redis_port: 6379  
+  handlers:
+    - include: handlers/main.yml  
+
+- hosts: redis1
+  name: Create cluster
+  shell: echo "yes" |  redis-cli --cluster create 192.168.56.4:6379 192.168.56.5:6379 192.168.56.6:6379 192.168.56.7:6379 192.168.56.8:6379 192.168.56.9:6379  --cluster-replicas 1
+  run_once: true
+  when: not cluster_setup_done
+   

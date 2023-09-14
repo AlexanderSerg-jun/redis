@@ -1,0 +1,19 @@
+---
+- name: Install Nginx web server
+  become: true
+  yum: name=nginx state=latest
+  notify: Restart Nginx
+  tags:
+    - nginx
+
+- name: Update nginx config files
+  become: true
+  template:
+    src: templates/default
+    dest: "/etc/nginx/sites-enabled/"
+  tags:
+    - nginx
+  notify: Restart Nginx
+
+
+

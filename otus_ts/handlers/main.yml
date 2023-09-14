@@ -1,0 +1,11 @@
+---
+- name: Restart Nginx
+  become: true
+  service:
+    name: nginx
+    state: restarted
+- name: restart redis
+  become: true
+  service:
+    name: "{{ redis_daemon }}"
+    state: restarted

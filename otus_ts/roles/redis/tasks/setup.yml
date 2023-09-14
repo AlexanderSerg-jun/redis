@@ -1,0 +1,6 @@
+---
+ - name: Ensure Redis is installed.
+   become: true
+   apt:
+     name: redis-server
+     state: present
